@@ -1,0 +1,30 @@
+package patternized;
+
+import java.util.ArrayList;
+
+public class BromeliaPictInventory {
+    private PhotoAdapter unsplashAdapter;
+    private PhotoAdapter pixabayAdapter;
+    private PhotoRankingBuilder ranking;
+
+    public BromeliaPictInventory(PhotoAdapter pUnsplashAdapter, PhotoAdapter pPixabayAdapter, PhotoRankingBuilder pRanking) {
+        this.unsplashAdapter = pUnsplashAdapter;
+        this.pixabayAdapter = pPixabayAdapter;
+        this.ranking = pRanking;
+    }
+
+    public void setRankingMethod(PhotoRankingBuilder pRanking) {
+        this.ranking = pRanking;
+    }
+
+    public ArrayList<Photo> searchAndRankPhotos(String query) {
+        ArrayList<Photo> unsplashPhotos = unsplashAdapter.searchPhotos(query);
+        ArrayList<Photo> pixabayPhotos = pixabayAdapter.searchPhotos(query);
+
+        return rankPhotos(unsplashPhotos, pixabayPhotos);
+    }
+
+    private List<Photo> rankPhotosResult(List<Photo> unsplashPhotos, List<Photo> pixabayPhotos) {
+        return ranking.rankPhotos(unsplashPhotos, pixabayPhotos);
+    }
+}
